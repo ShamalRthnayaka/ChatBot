@@ -109,6 +109,7 @@
 
     <script>
         let questions = [
+            "Where are you currently studying?",
             "What are the professional experience?",
             "What is AeroGen?",
             "What are your skills?",
@@ -117,7 +118,7 @@
             "What are your technical skills?",
             "What is your latest project?",
             "What are your achievements?",
-            "Where are you currently studying?",
+            "Awards?",
             "What are your future goals?"
         ];
 
@@ -133,8 +134,11 @@
 
             let answer = "";
             switch(question) {
+                case "Where are you currently studying?":
+                    answer = "I am pursuing a BSc (Hons) in AI & Data Science at IIT Sri Lanka, affiliated with RGU Scotland.";
+                    break;
                 case "What are the professional experience?":
-                    answer = "I have worked as a Data Science Intern at Acornic Ventures and am the Co-founder & Tech Lead of AeroGen.";
+                    answer = "I am currently working as a Data Science Intern at Acornic Ventures which is the company under Acorn Group and am the Co-founder & Tech Lead of AeroGen.";
                     break;
                 case "What is AeroGen?":
                     answer = "AeroGen is an AI-powered platform that helps business travelers with flight disruptions by predicting flight reliability.";
@@ -146,19 +150,19 @@
                     answer = "📧 Email: shamalrathnayake2021@gmail.com";
                     break;
                 case "What industries do you work in?":
-                    answer = "I work in AI, Data Science, Fashion Project, and Travel Technology.";
+                    answer = "I work in AI, Data Science, Fashion, Travel Technology & hope to try more industries to gather more knowledge.";
                     break;
                 case "What are your technical skills?":
                     answer = "My expertise includes API Development, Databases, System Design, UI/UX, DevOps, AI related Technical Skills and Blockchain.";
                     break;
                 case "What is your latest project?":
-                    answer = "I am currently working on an AI-driven virtual try-on feature for a fashion startup.";
+                    answer = "I am currently working on an AI-driven fashion startup with Industry & Domain experts.";
                     break;
                 case "What are your achievements?":
                     answer = "I won the Acornic Ventures Innovation Challenge (500K LKR) and secured a 6M LKR investment.";
                     break;
-                case "Where are you currently studying?":
-                    answer = "I am pursuing a BSc (Hons) in AI & Data Science at IIT Sri Lanka, affiliated with RGU Scotland.";
+                case "Awards?":
+                    answer = "I got the excellence award under the best innovation and entrepreneur category.";
                     break;
                 case "What are your future goals?":
                     answer = "My goal is to make AeroGen a global leader in AI-driven travel solutions and advance research in aerospace AI.";
