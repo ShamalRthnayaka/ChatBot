@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background: linear-gradient(90deg, #007bff, #00b4db);
+            padding: 15px;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .chat-box {
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .bot-message {
+            background: #e1f5fe;
+            align-self: flex-start;
+        }
+        .user-message {
+            background: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+        }
+        .option-btn, .exit-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .option-btn:hover, .exit-btn:hover {
+            background: #0056b3;
+        }
+        .exit-btn {
+          background: linear-gradient(90deg, #ff4b5c, #ff6b6b);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: bold;
+          transition: 0.3s;
+          box-shadow: 0 4px 8px rgba(255, 75, 92, 0.4);
+          margin-top: 15px;
+          width: 100px;
+          align-self: center;
+      }
+
+      .exit-btn:hover {
+          background: linear-gradient(90deg, #ff2e44, #ff4b5c);
+          box-shadow: 0 6px 12px rgba(255, 46, 68, 0.5);
+          transform: scale(1.05);
+      }
+
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">Shamal Bot</div>
+        <div class="chat-box" id="chat-box">
+            <div class="message bot-message">👋 Hi there! Want to know more about me? Click a question below.</div>
+        </div>
+        <div class="options" id="options"></div>
+        <button class="exit-btn" onclick="resetChat()">Exit</button>
+    </div>
+
+
+    <script>
+        let questions = [
+            "What are the professional experience?",
+            "What is AeroGen?",
+            "What are your skills?",
+            "How can I contact you?",
+            "What industries do you work in?",
+            "What are your technical skills?",
+            "What is your latest project?",
+            "What are your achievements?",
+            "Where are you currently studying?",
+            "What are your future goals?"
+        ];
+
+        let askedQuestions = [];
+
+        function askQuestion(question) {
+            const chatBox = document.getElementById("chat-box");
+
+            const userMessage = document.createElement("div");
+            userMessage.className = "message user-message";
+            userMessage.innerText = question;
+            chatBox.appendChild(userMessage);
+
+            let answer = "";
+            switch(question) {
+                case "What are the professional experience?":
+                    answer = "I have worked as a Data Science Intern at Acornic Ventures and am the Co-founder & Tech Lead of AeroGen.";
+                    break;
+                case "What is AeroGen?":
+                    answer = "AeroGen is an AI-powered platform that helps business travelers with flight disruptions by predicting flight reliability.";
+                    break;
+                case "What are your skills?":
+                    answer = "I specialize in AI, Data Science, Machine Learning, and Deep Learning.";
+                    break;
+                case "How can I contact you?":
+                    answer = "📧 Email: shamalrathnayake2021@gmail.com";
+                    break;
+                case "What industries do you work in?":
+                    answer = "I work in AI, Data Science, Fashion Project, and Travel Technology.";
+                    break;
+                case "What are your technical skills?":
+                    answer = "My expertise includes API Development, Databases, System Design, UI/UX, DevOps, AI related Technical Skills and Blockchain.";
+                    break;
+                case "What is your latest project?":
+                    answer = "I am currently working on an AI-driven virtual try-on feature for a fashion startup.";
+                    break;
+                case "What are your achievements?":
+                    answer = "I won the Acornic Ventures Innovation Challenge (500K LKR) and secured a 6M LKR investment.";
+                    break;
+                case "Where are you currently studying?":
+                    answer = "I am pursuing a BSc (Hons) in AI & Data Science at IIT Sri Lanka, affiliated with RGU Scotland.";
+                    break;
+                case "What are your future goals?":
+                    answer = "My goal is to make AeroGen a global leader in AI-driven travel solutions and advance research in aerospace AI.";
+                    break;
+                default:
+                    answer = "I’m not sure about that.";
+            }
+
+            setTimeout(() => {
+                const botMessage = document.createElement("div");
+                botMessage.className = "message bot-message";
+                botMessage.innerText = answer;
+                chatBox.appendChild(botMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+                askedQuestions.push(question);
+                updateOptions();
+            }, 500);
+        }
+
+        function updateOptions() {
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+            let availableQuestions = questions.filter(q => !askedQuestions.includes(q)).slice(0, 4);
+            availableQuestions.forEach(q => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerText = q;
+                btn.onclick = () => askQuestion(q);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function resetChat() {
+            document.getElementById("chat-box").innerHTML = '<div class="message bot-message">👋 Hi there! Want to know more about me? Click a question below.</div>';
+            askedQuestions = [];
+            updateOptions();
+        }
+
+        updateOptions();
+    </script>
+</body>
+</html>
