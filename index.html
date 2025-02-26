@@ -14,22 +14,44 @@
             height: 100vh;
             margin: 0;
         }
+        .start-container {
+            text-align: center;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .start-btn {
+            background: white;
+            color: #2575fc;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .start-btn:hover {
+            background: #ddd;
+        }
         .chat-container {
+            display: none;
             width: 350px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             overflow: hidden;
-            display: flex;
             flex-direction: column;
         }
         .chat-header {
-            background: linear-gradient(90deg, #007bff, #00b4db);
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
             padding: 15px;
             color: white;
             text-align: center;
             font-size: 18px;
             font-weight: bold;
+            position: relative;
         }
         .chat-box {
             padding: 15px;
@@ -59,7 +81,7 @@
             gap: 10px;
             padding: 10px;
         }
-        .option-btn, .exit-btn {
+        .option-btn {
             background: #007bff;
             color: white;
             border: none;
@@ -68,46 +90,44 @@
             cursor: pointer;
             font-size: 14px;
         }
-        .option-btn:hover, .exit-btn:hover {
+        .option-btn:hover {
             background: #0056b3;
         }
         .exit-btn {
-          background: linear-gradient(90deg, #ff4b5c, #ff6b6b);
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 25px;
-          cursor: pointer;
-          font-size: 16px;
-          font-weight: bold;
-          transition: 0.3s;
-          box-shadow: 0 4px 8px rgba(255, 75, 92, 0.4);
-          margin-top: 15px;
-          width: 100px;
-          align-self: center;
-      }
-
-      .exit-btn:hover {
-          background: linear-gradient(90deg, #ff2e44, #ff4b5c);
-          box-shadow: 0 6px 12px rgba(255, 46, 68, 0.5);
-          transform: scale(1.05);
-      }
-
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            position: absolute;
+            top: 115px;
+            right: 220px;
+        }
     </style>
 </head>
 <body>
+    <div class="start-container" id="start-screen">
+        <h1>👋 Hello, I'm Shaam!</h1>
+        <p>Ask About me?</p>
+        <button class="start-btn" onclick="startChat()">Start Chat</button>
+    </div>
 
-    <div class="chat-container">
+    <div class="chat-container" id="chat-container">
         <div class="chat-header">Shamal Bot</div>
+        <button class="exit-btn" onclick="resetChat()">❌</button>
         <div class="chat-box" id="chat-box">
             <div class="message bot-message">👋 Hi there! Want to know more about me? Click a question below.</div>
         </div>
         <div class="options" id="options"></div>
-        <button class="exit-btn" onclick="resetChat()">Exit</button>
+        <button class="exit-btn" onclick="resetChat()"></button>
     </div>
 
-
     <script>
+        function startChat() {
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("chat-container").style.display = "flex";
+        }
+
         let questions = [
             "Where are you currently studying?",
             "What are the professional experience?",
@@ -126,50 +146,24 @@
 
         function askQuestion(question) {
             const chatBox = document.getElementById("chat-box");
-
             const userMessage = document.createElement("div");
             userMessage.className = "message user-message";
             userMessage.innerText = question;
             chatBox.appendChild(userMessage);
 
-            let answer = "";
-            switch(question) {
-                case "Where are you currently studying?":
-                    answer = "I am pursuing a BSc (Hons) in AI & Data Science at IIT Sri Lanka, affiliated with RGU Scotland.";
-                    break;
-                case "What are the professional experience?":
-                    answer = "I am currently working as a Data Science Intern at Acornic Ventures which is the company under Acorn Group and am the Co-founder & Tech Lead of AeroGen.";
-                    break;
-                case "What is AeroGen?":
-                    answer = "AeroGen is an AI-powered platform that helps business travelers with flight disruptions by predicting flight reliability.";
-                    break;
-                case "What are your skills?":
-                    answer = "I specialize in AI, Data Science, Machine Learning, and Deep Learning.";
-                    break;
-                case "How can I contact you?":
-                    answer = "📧 Email: shamalrathnayake2021@gmail.com";
-                    break;
-                case "What industries do you work in?":
-                    answer = "I work in AI, Data Science, Fashion, Travel Technology & hope to try more industries to gather more knowledge.";
-                    break;
-                case "What are your technical skills?":
-                    answer = "My expertise includes API Development, Databases, System Design, UI/UX, DevOps, AI related Technical Skills and Blockchain.";
-                    break;
-                case "What is your latest project?":
-                    answer = "I am currently working on an AI-driven fashion startup with Industry & Domain experts.";
-                    break;
-                case "What are your achievements?":
-                    answer = "I won the Acornic Ventures Innovation Challenge (500K LKR) and secured a 6M LKR investment.";
-                    break;
-                case "Awards?":
-                    answer = "I got the excellence award under the best innovation and entrepreneur category.";
-                    break;
-                case "What are your future goals?":
-                    answer = "My goal is to make AeroGen a global leader in AI-driven travel solutions and advance research in aerospace AI.";
-                    break;
-                default:
-                    answer = "I’m not sure about that.";
-            }
+            let answer = {
+                "Where are you currently studying?": "I am pursuing a BSc (Hons) in AI & Data Science at IIT Sri Lanka, affiliated with RGU Scotland.",
+                "What are the professional experience?": "I am currently a Data Science Intern at Acornic Ventures and the Co-founder & Tech Lead of AeroGen.",
+                "What is AeroGen?": "AeroGen is an AI-powered platform that helps business travelers with flight disruptions by predicting flight reliability.",
+                "What are your skills?": "I specialize in AI, Data Science, Machine Learning, and Deep Learning.",
+                "How can I contact you?": "📧 Email: shamalrathnayake2021@gmail.com",
+                "What industries do you work in?": "I work in AI, Data Science, Fashion, Travel Technology & more.",
+                "What are your technical skills?": "Expertise in API Development, Databases, UI/UX, DevOps, AI & Blockchain.",
+                "What is your latest project?": "Currently working on an AI-driven fashion startup with industry experts.",
+                "What are your achievements?": "I won the Acornic Ventures Innovation Challenge (500K LKR) and secured a 6M LKR investment.",
+                "Awards?": "I got the excellence award under the best innovation and entrepreneur category.",
+                "What are your future goals?": "My goal is to make AeroGen a global leader in AI-driven travel solutions."
+            }[question] || "I’m not sure about that.";
 
             setTimeout(() => {
                 const botMessage = document.createElement("div");
@@ -185,8 +179,7 @@
         function updateOptions() {
             const optionsDiv = document.getElementById("options");
             optionsDiv.innerHTML = "";
-            let availableQuestions = questions.filter(q => !askedQuestions.includes(q)).slice(0, 4);
-            availableQuestions.forEach(q => {
+            questions.filter(q => !askedQuestions.includes(q)).slice(0, 4).forEach(q => {
                 const btn = document.createElement("button");
                 btn.className = "option-btn";
                 btn.innerText = q;
@@ -196,11 +189,8 @@
         }
 
         function resetChat() {
-            document.getElementById("chat-box").innerHTML = '<div class="message bot-message">👋 Hi there! Want to know more about me? Click a question below.</div>';
-            askedQuestions = [];
-            updateOptions();
+            location.reload();
         }
-
         updateOptions();
     </script>
 </body>
